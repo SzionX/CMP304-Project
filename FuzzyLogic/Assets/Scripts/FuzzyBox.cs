@@ -24,12 +24,15 @@ public class FuzzyBox : MonoBehaviour
 		var d_none = direction.MembershipFunctions.AddTrapezoid("none", -5, -0.5, 0.5, 5);
 		var d_left = direction.MembershipFunctions.AddTrapezoid("left", 1, 5, 50, 50);
 
+		//
 		engine = new FuzzyEngineFactory().Default();
 
+		//Create Rules
 		var rule1 = Rule.If(distance.Is(right)).Then(direction.Is(d_left));
 		var rule3 = Rule.If(distance.Is(none)).Then(direction.Is(d_none));
 		var rule2 = Rule.If(distance.Is(left)).Then(direction.Is(d_right));
 
+		//S
 		engine.Rules.Add(rule1, rule2, rule3);
 	}
 

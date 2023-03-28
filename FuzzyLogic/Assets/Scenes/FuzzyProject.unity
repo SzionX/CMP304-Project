@@ -347,6 +347,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   angle: -30
+  rayOn: 0
   rayPoint: {fileID: 537086231}
   lineRenderer: {fileID: 486386257}
 --- !u!120 &486386257
@@ -505,6 +506,21 @@ CapsuleCollider:
   m_Height: 1381.5753
   m_Direction: 1
   m_Center: {x: -0, y: 87.32033, z: 182.05}
+--- !u!114 &507593168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 507593163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d34a54544bab115488cbb6091a7b6d05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftRay: {fileID: 486386254}
+  midRay: {fileID: 1143576355}
+  rightRay: {fileID: 1478087207}
 --- !u!1 &537086231
 GameObject:
   m_ObjectHideFlags: 0
@@ -665,7 +681,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainCam: {fileID: 282840813}
-  followCam: {fileID: 0}
+  followCam: {fileID: 1508746152}
 --- !u!4 &1071578347
 Transform:
   m_ObjectHideFlags: 0
@@ -742,6 +758,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   angle: 0
+  rayOn: 0
   rayPoint: {fileID: 537086231}
   lineRenderer: {fileID: 1143576358}
 --- !u!120 &1143576358
@@ -893,6 +910,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   angle: 30
+  rayOn: 0
   rayPoint: {fileID: 537086231}
   lineRenderer: {fileID: 1478087210}
 --- !u!120 &1478087210

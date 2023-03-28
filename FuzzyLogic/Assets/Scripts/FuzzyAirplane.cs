@@ -4,6 +4,7 @@ using UnityEngine;
 using FLS;
 using FLS.Rules;
 using FLS.MembershipFunctions;
+using UnityEditor.PackageManager;
 
 public class FuzzyAirplane : MonoBehaviour
 {
@@ -35,11 +36,28 @@ public class FuzzyAirplane : MonoBehaviour
 
     void FixedUpdate()
     {
-        
+
+        RaycastHit hit;
+
+        Vector3 fwd = transform.TransformDirection(Vector3.forward);
+
+        // Does the ray intersect any objects excluding the player layer
+        if (Physics.Raycast(transform.position, fwd, out hit))
+        {
+           //Debug.DrawRay(transform.position, fwd * hit.distance, Color.yellow);
+            
+            Debug.Log("Hit: " + hit.collider.name);
+        }
+        else
+        {
+            Debug.DrawRay(transform.position, fwd * 1000, Color.white);
+            Debug.Log("Did not Hit");
+        }
     }
 
     void Update()
     {
-        
+        Vector3 forward = transform.TransformDirection(Vector3.forward) * 10;
+        Debug.DrawRay(transform.position, forward, Color.green);
     }
 }

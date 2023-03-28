@@ -8,56 +8,21 @@ using UnityEditor.PackageManager;
 
 public class FuzzyAirplane : MonoBehaviour
 {
-    //Variables
-    IFuzzyEngine engine;
-    LinguisticVariable distance, direction;
+    //Serialize Fields
+    [SerializeField] LinguisticVariable leftDistance, midDistance, rightDistance;
 
     void Start()
     {
-        // Here we need to setup the Fuzzy Inference System
-        distance = new LinguisticVariable("distance");
-        var right = distance.MembershipFunctions.AddTrapezoid("right", -50, -50, -5, -1);
-        var none = distance.MembershipFunctions.AddTrapezoid("none", -5, -0.5, 0.5, 5);
-        var left = distance.MembershipFunctions.AddTrapezoid("left", 1, 5, 50, 50);
 
-        direction = new LinguisticVariable("distance");
-        var d_right = direction.MembershipFunctions.AddTrapezoid("right", -50, -50, -5, -1);
-        var d_none = direction.MembershipFunctions.AddTrapezoid("none", -5, -0.5, 0.5, 5);
-        var d_left = direction.MembershipFunctions.AddTrapezoid("left", 1, 5, 50, 50);
-
-        engine = new FuzzyEngineFactory().Default();
-
-        var rule1 = Rule.If(distance.Is(right)).Then(direction.Is(d_left));
-        var rule3 = Rule.If(distance.Is(none)).Then(direction.Is(d_none));
-        var rule2 = Rule.If(distance.Is(left)).Then(direction.Is(d_right));
-
-        engine.Rules.Add(rule1, rule2, rule3);
     }
 
     void FixedUpdate()
     {
 
-        RaycastHit hit;
-
-        Vector3 fwd = transform.TransformDirection(Vector3.forward);
-
-        // Does the ray intersect any objects excluding the player layer
-        if (Physics.Raycast(transform.position, fwd, out hit))
-        {
-           //Debug.DrawRay(transform.position, fwd * hit.distance, Color.yellow);
-            
-            Debug.Log("Hit: " + hit.collider.name);
-        }
-        else
-        {
-            Debug.DrawRay(transform.position, fwd * 1000, Color.white);
-            Debug.Log("Did not Hit");
-        }
     }
 
     void Update()
     {
-        Vector3 forward = transform.TransformDirection(Vector3.forward) * 10;
-        Debug.DrawRay(transform.position, forward, Color.green);
+
     }
 }

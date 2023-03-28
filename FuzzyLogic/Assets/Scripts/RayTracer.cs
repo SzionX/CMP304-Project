@@ -4,25 +4,33 @@ using UnityEngine;
 
 public class RayTracer : MonoBehaviour
 {
-
-    public GameObject pointer;
+    [SerializeField] private float angle;
+    [SerializeField] GameObject rayPoint;
+    [SerializeField] LineRenderer lineRenderer;
 
     void Update()
     {
+        lineRenderer.enabled = true;
+        lineRenderer.SetPosition(0, rayPoint.transform.position);
+        lineRenderer.startWidth = 0.2f;
+        lineRenderer.endWidth = 0.2f;
+
+        Vector3 direction = Quaternion.AngleAxis(angle, rayPoint.transform.forward) * rayPoint.transform.up;
+
         // Cast a ray forward from the position of this GameObject
         RaycastHit hit;
-        //int layerMask = 1 << 8;
+        int layerMask = 1 << 8;
 
         // If the ray hits a collider, draw a debug ray to visualize it
-        if (Physics.Raycast(pointer.transform.position, pointer.transform.TransformDirection(Vector3.forward), out hit, 20f))
+        if (Physics.Raycast(rayPoint.transform.position, direction, out hit, layerMask))
         {
-     
-            Debug.Log("Hit object: " + hit.collider.gameObject.name);
-            Debug.DrawLine(pointer.transform.position, pointer.transform.TransformDirection(Vector3.forward) * hit.distance, Color.green);
+            lineRenderer.SetPosition(1, hit.point);
+            lineRenderer.material.SetColor("_Color", Color.green);
+          
         } else
         {
-            Debug.Log("Hit Nothing");
-            Debug.DrawLine(pointer.transform.position, pointer.transform.TransformDirection(Vector3.forward) * 20f, Color.red);
+            lineRenderer.SetPosition(1, rayPoint.transform.position + direction * 20f);
+            lineRenderer.material.SetColor("_Color", Color.red);
         }
     }
 }

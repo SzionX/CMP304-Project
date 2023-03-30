@@ -19,7 +19,7 @@ public class FuzzyBox : MonoBehaviour
 		var none = distance.MembershipFunctions.AddTrapezoid("none", -5, -0.5, 0.5, 5);
 		var left = distance.MembershipFunctions.AddTrapezoid("left", 1, 5, 50, 50);
 
-		direction = new LinguisticVariable("distance");
+		direction = new LinguisticVariable("direction");
 		var d_right = direction.MembershipFunctions.AddTrapezoid("right", -50, -50, -5, -1);
 		var d_none = direction.MembershipFunctions.AddTrapezoid("none", -5, -0.5, 0.5, 5);
 		var d_left = direction.MembershipFunctions.AddTrapezoid("left", 1, 5, 50, 50);

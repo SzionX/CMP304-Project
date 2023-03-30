@@ -4,7 +4,7 @@ using UnityEngine;
 using FLS;
 using FLS.Rules;
 using FLS.MembershipFunctions;
-using UnityEditor.PackageManager;
+using Unity.VisualScripting;
 
 public class FuzzyAirplane : MonoBehaviour
 {
@@ -92,44 +92,44 @@ public class FuzzyAirplane : MonoBehaviour
         var moveRule14 = Rule.If(collisionDirection.Is(cd_right).And(collisionDistance.Is(mid))).Then(moveDirection.Is(md_none));
         var moveRule15 = Rule.If(collisionDirection.Is(cd_right).And(collisionDistance.Is(near))).Then(moveDirection.Is(md_none));
 
+        //Add Rules to return plane to center
+        var returnRule1 = Rule.If(collisionDistance.Is(far)).Then(moveDirection.Is(md_left));
+        var returnRule2 = Rule.If(collisionDistance.Is(mid)).Then(moveDirection.Is(md_none));
+        var returnRule3 = Rule.If(collisionDistance.Is(near)).Then(moveDirection.Is(md_right));
+
         //Speed Rules
         var speedRule1 = Rule.If(collisionDistance.Is(far)).Then(speed.Is(slow));
         var speedRule2 = Rule.If(collisionDistance.Is(mid)).Then(speed.Is(medium));
         var speedRule3 = Rule.If(collisionDistance.Is(near)).Then(speed.Is(fast));
 
+
         //Add rules into engines
-        moveEngine.Rules.Add(moveRule1, moveRule2, moveRule3, moveRule4, moveRule4, moveRule5, moveRule6, moveRule7, moveRule8,
-                             moveRule9, moveRule10, moveRule11, moveRule12, moveRule13, moveRule14, moveRule15);
+        moveEngine.Rules.Add(moveRule1, moveRule2, moveRule3, moveRule4, moveRule4, moveRule5, moveRule6, moveRule7, moveRule8, moveRule9, moveRule10, moveRule11, moveRule12, moveRule13, moveRule14, moveRule15);
+        moveEngine.Rules.Add(returnRule1, returnRule2, returnRule3);
         speedEngine.Rules.Add(speedRule1, speedRule2, speedRule3);
     }
 
     void Update()
     {
-        //Setting Collision Linguistic Variable to the distance of the ray hit
-        speedEngine.Defuzzify(new { collisionDistance = leftRayHit.distance });
-        speedEngine.Defuzzify(new { collisionDistance = midRayHit.distance });
-        speedEngine.Defuzzify(new { collisionDistance = rightRayHit.distance });
+        //double planeMove = ; 
 
-       
+        ////Setting Collision Linguistic Variable to the distance of the ray hit
+        //speedEngine.Defuzzify(new { collisionDistance = (double)leftRayHit.distance });
+        //speedEngine.Defuzzify(new { collisionDistance = (double)midRayHit.distance });
+        //speedEngine.Defuzzify(new { collisionDistance = (double)rightRayHit.distance });
 
-
+        ////Create value to move 
+        //double xMove = moveEngine.Defuzzify(new { moveDirection = (double)this.transform.position.x });
+        //rb.AddForce(new Vector3((float)(xMove), 0, 0));
     }
 
     void FixedUpdate()
     {
+    }
 
-        //Fuzzybox script
-        if (this.transform.position.y < 0.6f)
-        {
-            // Convert position of box to value between 0 and 100
-            double moveResult = moveEngine.Defuzzify(new { moveDirection = (double)this.transform.position.x });
-          
-
-            //Add movement to Rigidbody
-            rb.AddForce(new Vector3((float)(moveResult), 0f, 0f));
-              
-        }
-
-        //Update based on rules
+    //Stop running if plane crashes
+    private void OnCollisionEnter(Collision collision)
+    {
+        Application.Quit();
     }
 }

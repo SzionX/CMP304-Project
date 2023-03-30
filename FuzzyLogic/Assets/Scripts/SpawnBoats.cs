@@ -11,6 +11,14 @@ public class SpawnBoats : MonoBehaviour
 
     void Start()
     {
+        //Get slider
+        GameObject sliderGO = GameObject.Find("Slider");
+
+        if (sliderGO != null)
+        {
+            respawnSlider = sliderGO.GetComponent<Slider>();
+        }
+
         StartCoroutine(randSpawn());
     }
 
@@ -24,7 +32,14 @@ public class SpawnBoats : MonoBehaviour
     {
         while(true)
         {
-            yield return new WaitForSeconds(respawnTime); 
+            yield return new WaitForSeconds(respawnTime);
+
+            // Get the slider value and use it as the new respawnTime
+            if (respawnSlider != null)
+            {
+                respawnTime = respawnSlider.value;
+            }
+
             spawnBoat();
         }
     }
